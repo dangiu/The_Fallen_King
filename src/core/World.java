@@ -2,6 +2,7 @@ package core;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -70,6 +71,26 @@ public class World {
 	}
 	
 	/**
+	 * Rimuove un'entita' dal mondo
+	 *  
+	 * @param entity L'entita' da rimuovere. Deve essere presente nel mondo e != null
+	 */
+	public void removeEntity(Entity entity) {
+		if(entity == null) {
+			throw new NullPointerException("Entity to remove must be non null");
+		}
+		if(!entities.contains(entity)) {
+			throw new IllegalArgumentException("The entity to remove is not contained in the world");
+		}
+		
+		entities.remove(entity);
+	}
+	
+	public Iterator<Entity> getEntityIterator() {
+		return entities.iterator();
+	}
+	
+	/**
 	 * Aggiunge una nuova condizione che se soddisfatta provoca la vincita del giocatore
 	 * 
 	 * @param team Il giocatore che vincera' se la condizione risulta soddisfatta
@@ -94,6 +115,12 @@ public class World {
 		}
 	}
 	
+	/**
+	 * Restituisce la lista di condizioni di vittoria soddisfatte per un dato team
+	 * 
+	 * @param team Il team di cui controllare le condizioni di vittoria
+	 * @return Lista di condizioni di vittoria soddisfatte
+	 */
 	public List<VictoryCondition> checkSatisfiedVictoryConditions(Team team) {
 		List<VictoryCondition> satisfiedConditions = new ArrayList<>();
 		List<VictoryCondition> conditions = victoryConditions.get(team);

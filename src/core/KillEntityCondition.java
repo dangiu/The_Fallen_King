@@ -8,13 +8,13 @@ package core;
  */
 public class KillEntityCondition implements VictoryCondition {
 
-	private Damageable entity;
+	private DamageableEntity entity;
 	
 	/**
 	 * 
 	 * @param entity L'entita' la cui uccisione soddisfa la condizione. Deve essere non null
 	 */
-	public KillEntityCondition(Damageable entity) {
+	public KillEntityCondition(DamageableEntity entity) {
 		if(entity == null) {
 			throw new NullPointerException("The entity to monitor must be non null");
 		}
@@ -23,7 +23,7 @@ public class KillEntityCondition implements VictoryCondition {
 	}
 	
 	public boolean testVictory() {
-		if(entity.getHp() > 0) {
+		if(entity.isDead()) {
 			return false;
 		} else {
 			return true;

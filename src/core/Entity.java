@@ -1,6 +1,6 @@
 package core;
 
-import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 
 /**
  *
@@ -13,7 +13,7 @@ public interface Entity {
 	/**
 	 * @return rettangolo rappresentante la posizione e le dimensioni logiche dell'elemento
 	 */
-	public Rectangle getBox();
+	public Rectangle2D getBox();
 	/**
 	 * @return il team che ha generato l'elemento
 	 */

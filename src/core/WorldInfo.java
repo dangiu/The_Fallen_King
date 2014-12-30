@@ -18,7 +18,7 @@ public final class WorldInfo {
 	/**
 	 * Genera una descrizione immutabile del mondo
 	 * 
-	 * @param worldWidth La larghezza del mondo. Deve essere > 0
+	 * @param worldWidth La larghezza del mondo in metri. Deve essere > 0
 	 */
 	public WorldInfo(int worldWidth) {
 		if(worldWidth <= 0) {
