@@ -24,6 +24,6 @@ public interface Entity {
 	 * @param time Il tempo in ms di cui l'entita' deve evolvere. Deve esserre > 0
 	 * @param world Il contesto all'interno del quale l'entita' deve evolvere. Deve essere != null
 	 */
-	public void evolve(long time, World world);
+	public void evolve(int time, World world);
 	
 }

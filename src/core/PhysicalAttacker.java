@@ -7,6 +7,10 @@ package core;
  */
 abstract class PhysicalAttacker extends RangeFinderAttacker {
 	
+	PhysicalAttacker(Team team, double xSpawnPosition, double width, double height) {
+		super(team, xSpawnPosition, 0, width, height);
+	}
+	
 	@Override
 	boolean attack(World world, DamageableEntity damageableEntity) {
 

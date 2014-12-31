@@ -109,7 +109,7 @@ public class World {
 	 * 
 	 * @param time Il periodo di tempo in ms di cui simulare l'evoluzione del mondo
 	 */
-	public void simulate(long time) {
+	public void simulate(int time) {
 		for(Entity entity : entities) {
 			entity.evolve(time, this);
 		}

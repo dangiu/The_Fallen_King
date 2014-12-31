@@ -1,12 +1,50 @@
 package core;
 
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
-//TODO Sistemare i range usando i double perche' gli interi non sono abbastanza precisi
-
+/**
+ * Classe astratta che fornisce la base per implementare entita' che attaccano nemici
+ * all'interno del loro range. Non e' applicabile a entita' che interagiscono con entita'
+ * alleate ad esempio curandole.
+ * 
+ * @author Willi Menapace
+ *
+ */
 abstract class RangeFinderAttacker implements AttackerEntity {
 	
-	int currentCooldown = 0; //Il tempo che deve ancora trascorrere prima di poter attaccare nuovamente
+	Rectangle2D.Double box; //La hitbox dell'unita'. Deve essere accessbile alle sottoclassi in caso dovessero muovere l'unita'
+	private Team team;
+	
+	private int currentCooldown = 0; //Il tempo che deve ancora trascorrere prima di poter attaccare nuovamente
+	
+	private List<Entity> cachedInRangeEnemies = null;
+	private boolean enemyCacheAvailable = false;
+	
+	/**
+	 * Costruisce l'entita' ponendola nel team selezionato e assegnandole posizione e dimensioni
+	 * @param team Il team a cui appartiene l'entita'
+	 * @param xSpawnPosition La posizione in metri in cui posizionare l'entita'
+	 * @param ySpawnPosition La posizione in metri dal suolo i cui spawnare l'entita'
+	 * @param width L'altezza dell'unita'
+	 * @param height La larghezza dell'unita'
+	 */
+	RangeFinderAttacker(Team team, double xSpawnPosition, double ySpawnPosition, double width, double height) {
+		this.team = team;
+		box = new Rectangle2D.Double(xSpawnPosition, ySpawnPosition, width, height);
+	}
+	
+	@Override
+	public Rectangle2D getBox() {
+		return box;
+	}
+
+	@Override
+	public Team getTeam() {
+		return team;
+	}
 	
 	@Override
 	public boolean evalAndAttack(World world, int time) {
@@ -23,6 +61,10 @@ abstract class RangeFinderAttacker implements AttackerEntity {
 					break;
 				}
 				currentCooldown = getAttackCooldown(); //Ripristina il cooldown per il prossimo attacco
+				//Le unita' che impostano il proprio cooldown a -1 segnalano di non voler piu' attaccare
+				if(currentCooldown == -1) {
+					break;
+				}
 			//Il tempo per attaccare e' terminato
 			} else {
 				currentCooldown -= time;
@@ -40,7 +82,15 @@ abstract class RangeFinderAttacker implements AttackerEntity {
 	 */
 	private boolean findInRange(World world) {
 		boolean attackedSomeone = false;
-		Iterator<Entity> iterator = world.getEntityIterator();
+		
+		Iterator<Entity> iterator;
+		//Se sono gia' state calcolate le unita' nel range allora non e' necessario ricalcolarle
+		if(enemyCacheAvailable) {
+			iterator = cachedInRangeEnemies.iterator();
+		} else {
+			iterator = world.getEntityIterator();			
+		}
+		
 		while(iterator.hasNext()) {
 			Entity currentEntity = iterator.next();
 			
@@ -78,9 +128,27 @@ abstract class RangeFinderAttacker implements AttackerEntity {
 	abstract boolean attack(World world, DamageableEntity damageableEntity);
 	
 	@Override
-	public void evolve(long time, World world) {
+	public void evolve(int time, World world) {
 		
+		//Se l'entita' puo' muoversi e non ci sono unita' attaccabili
+		if(this instanceof MobileEntity) {
+			MobileEntity thisEntity = (MobileEntity) this;
+			
+			cachedInRangeEnemies = new ArrayList<>();
+			cachedInRangeEnemies = AttackHelper.getInRangeEntities(this, world, AttackHelper.SearchMode.ENEMY);
+			enemyCacheAvailable = true; //Convalida la cache
+			
+			if(cachedInRangeEnemies.isEmpty()) {
+				thisEntity.move(time);
+				//Se ci si muove bisogna ricalcolare le unita' in range
+				enemyCacheAvailable = false;
+			}
+		}
+		
+		evalAndAttack(world, time);
+		//Alla fine del periodo di evoluzione le altre entita' nel mondo evolvono a loro volta
+		//cambiando posizione
+		enemyCacheAvailable = false;
 	}
-	
 	
 }

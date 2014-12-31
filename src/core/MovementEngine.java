@@ -16,5 +16,11 @@ public interface MovementEngine {
 	 * @param time Il tempo in ms trascorso il quale si vuole sapere al nuova posizione
 	 * @return La nuova posizione calcolata dell'elemento dopo il tempo specificato
 	 */
-	public Rectangle2D getNewPosition(Rectangle2D initialPosition, int time);
+	public Rectangle2D.Double getNewPosition(Rectangle2D initialPosition, int time);
+	
+	/**
+	 * 
+	 * @return la direzione in cui avviene lo spostamento
+	 */
+	public MovementDirection getDirection();
 }
