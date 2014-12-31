@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+//TODO Implementare soldi
+
 /**
  * Classe astratta che fornisce la base per implementare entita' che attaccano nemici
  * all'interno del loro range. Non e' applicabile a entita' che interagiscono con entita'
@@ -105,7 +107,13 @@ abstract class RangeFinderAttacker implements AttackerEntity {
 					
 					//Le unita' morte sono rimosse dal mondo
 					if(damageableEntity.isDead()) {
-						world.removeEntity(damageableEntity);
+						
+						//Assegna i soldi corrispondenti all'attaccante
+						PlayerInfo playerInfo = world.getPlayerInfo(this.getTeam());
+						playerInfo.giveMoney(damageableEntity.getBaseMoneyOnKill());
+						
+						//Rimuove in maniera differita l'entia' per evitare modifiche alla struttuta dati durante le iterazioni
+						world.removeDeferredEntity(damageableEntity);
 					}
 					
 					//La subclasse segnala che non vuole piu' attaccare in questo cooldown

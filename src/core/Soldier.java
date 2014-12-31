@@ -17,6 +17,7 @@ public class Soldier extends PhysicalAttacker implements MobileEntity, Damageabl
 	private int currentHp = maxHp;
 	private int defense = 1;
 	private double movementSpeed = 2;
+	public int baseMoneyOnKill = 75;
 	private MovementEngine movementEngine;
 
 	public Soldier(Team team, double xSpawnCoordinates, MovementDirection direction) {
@@ -66,6 +67,11 @@ public class Soldier extends PhysicalAttacker implements MobileEntity, Damageabl
 	@Override
 	public int getDefense() {
 		return defense;
+	}
+	
+	@Override
+	public int getBaseMoneyOnKill() {
+		return baseMoneyOnKill;
 	}
 	
 	@Override

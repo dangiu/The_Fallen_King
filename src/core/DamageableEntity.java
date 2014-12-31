@@ -34,4 +34,9 @@ public interface DamageableEntity extends Entity {
      * @return Il numero di punti difesa dell'elemento
      */
     public int getDefense();
+    /**
+     * 
+     * @return Il numero di soldi guadagnati all'uccisione dell'elemento
+     */
+    public int getBaseMoneyOnKill();
 }

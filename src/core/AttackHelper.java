@@ -13,6 +13,9 @@ import java.util.List;
  */
 final class AttackHelper {
 	
+	//Evita che venga istanziata
+	private AttackHelper() {};
+	
 	static enum SearchMode {
 		ANY, FRIEND, ENEMY;
 	}

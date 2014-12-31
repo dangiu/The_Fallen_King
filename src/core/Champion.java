@@ -16,6 +16,7 @@ public class Champion extends PhysicalAttacker implements MobileEntity, Damageab
 	private int currentHp = maxHp;
 	private int defense = 3;
 	private double movementSpeed = 1.2;
+	public int baseMoneyOnKill = 200;
 	private MovementEngine movementEngine;
 
 	public Champion(Team team, double xSpawnCoordinates, MovementDirection direction) {
@@ -65,6 +66,11 @@ public class Champion extends PhysicalAttacker implements MobileEntity, Damageab
 	@Override
 	public int getDefense() {
 		return defense;
+	}
+	
+	@Override
+	public int getBaseMoneyOnKill() {
+		return baseMoneyOnKill;
 	}
 	
 	@Override

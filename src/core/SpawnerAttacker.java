@@ -24,10 +24,10 @@ abstract class SpawnerAttacker extends RangeFinderAttacker {
 	@Override
 	boolean attack(World world, DamageableEntity damageableEntity) {
 
-		world.addEntity(getSpawnedEntity(damageableEntity));
+		world.addDeferredEntity(getSpawnedEntity(damageableEntity));
 		
 		//Si spawna una sola entita' per ogni attacco
-		return false;
+		return true;
 	}
 	
 }

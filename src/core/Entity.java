@@ -19,7 +19,8 @@ public interface Entity {
 	 */
 	public Team getTeam();
 	/**
-	 * Evolve del periodo di tempo specificato all'interno del mondo
+	 * Evolve del periodo di tempo specificato all'interno del mondo.
+	 * Tutti gli iteratori ottenuti da world durante il periodo di evoluzione non possono essere riutilizzati in quello successivo
 	 * 
 	 * @param time Il tempo in ms di cui l'entita' deve evolvere. Deve esserre > 0
 	 * @param world Il contesto all'interno del quale l'entita' deve evolvere. Deve essere != null

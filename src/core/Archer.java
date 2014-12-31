@@ -11,12 +11,13 @@ public class Archer extends SpawnerAttacker implements MobileEntity, DamageableE
 	private static final double height = 1.7;
 	private static final double width = 0.3;
 	private int attack = 10;
-	private int attackCooldown = 1500;
-	private double range = 1.2;
+	private int attackCooldown = 2000;
+	private double range = 20;
 	private int maxHp = 20;
 	private int currentHp = maxHp;
-	private int defense = 1;
+	private int defense = 0;
 	private double movementSpeed = 2;
+	public int baseMoneyOnKill = 100;
 	private MovementEngine movementEngine;
 
 	public Archer(Team team, double xSpawnCoordinates, MovementDirection direction) {
@@ -72,6 +73,11 @@ public class Archer extends SpawnerAttacker implements MobileEntity, DamageableE
 	@Override
 	public int getDefense() {
 		return defense;
+	}
+	
+	@Override
+	public int getBaseMoneyOnKill() {
+		return baseMoneyOnKill;
 	}
 	
 	@Override

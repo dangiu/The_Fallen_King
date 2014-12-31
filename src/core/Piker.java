@@ -17,6 +17,7 @@ public class Piker extends PhysicalAttacker implements MobileEntity, DamageableE
 	private int currentHp = maxHp;
 	private int defense = 0; //Nessuna difesa
 	private double movementSpeed = 2;
+	public int baseMoneyOnKill = 50;
 	private MovementEngine movementEngine;
 
 	public Piker(Team team, double xSpawnCoordinates, MovementDirection direction) {
@@ -66,6 +67,11 @@ public class Piker extends PhysicalAttacker implements MobileEntity, DamageableE
 	@Override
 	public int getDefense() {
 		return defense;
+	}
+	
+	@Override
+	public int getBaseMoneyOnKill() {
+		return baseMoneyOnKill;
 	}
 	
 	@Override

@@ -18,7 +18,7 @@ abstract class PhysicalAttacker extends RangeFinderAttacker {
 		damageableEntity.inflictDamage(damageDealt);
 		
 		//Si attaccano tutte le unita' in range con un singolo attacco
-		return true;
+		return false;
 	}
 	
 }

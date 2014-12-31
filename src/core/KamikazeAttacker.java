@@ -13,7 +13,7 @@ abstract class KamikazeAttacker extends RangeFinderAttacker {
 		damageableEntity.inflictDamage(damageDealt);
 		
 		//Si attacca una sola unita', dopo l'attaccante si distrugge
-		world.removeEntity(this);
-		return false;
+		world.removeDeferredEntity(this);
+		return true;
 	}
 }
