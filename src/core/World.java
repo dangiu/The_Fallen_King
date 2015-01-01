@@ -2,6 +2,7 @@ package core;
 
 //TODO implementare la deserializzazione
 
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,6 +10,16 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import core.entities.Archer;
+import core.entities.BasicArrow;
+import core.entities.Champion;
+import core.entities.DamageableEntity;
+import core.entities.Entity;
+import core.entities.MobileEntity;
+import core.entities.MovementDirection;
+import core.entities.Piker;
+import core.entities.Soldier;
 
 /**
  * Rappresenta uno stato della partita
@@ -69,6 +80,14 @@ public class World {
 	}
 	
 	/**
+	 * 
+	 * @return Le informazioni non modificabili del mondo
+	 */
+	public WorldInfo getWorldInfo() {
+		return worldInfo;
+	}
+	
+	/**
 	 * Effettua la sincronizzazione della lista di entita' effettuando le
 	 * aggiunte e le rimozioni differite
 	 */
@@ -102,7 +121,7 @@ public class World {
 	 * 
 	 * @param entity L'entita' da inserire. Deve essere != null
 	 */
-	void addDeferredEntity(Entity entity) {
+	public void addDeferredEntity(Entity entity) {
 		if(entity == null) {
 			throw new NullPointerException("Entity to insert inside the world must be non null");
 		}
@@ -209,10 +228,13 @@ public class World {
 		return satisfiedConditions;
 	}
 	
-	private static final class SerializerHelper {
+	public static final class SerializationHelper {
 		
 		private static final int BLUE_ID = 0;
 		private static final int RED_ID = 1;
+		
+		private static final int LEFT_ID = 0;
+		private static final int RIGHT_ID = 1;
 		
 		private static final int ARCHER_ID = 0;
 		private static final int BASIC_ARROW_ID = 1;
@@ -221,38 +243,36 @@ public class World {
 		private static final int SOLDIER_ID = 4;
 		
 		//Evita che venga istanziata
-		private SerializerHelper() {};
+		private SerializationHelper() {};
 		
 		/**
 		 * Serializza sullo stream fornito uno stato incompleto ma riassuntivo del mondo
 		 * @param world Lo stato del mondo da serializzare
+		 * @throws IOException Lancia l'eccezione in caso sia impossibile serializzare sullo stream specificato
 		 * @param out Lo stream su cui serializzare il mondo. Si ottengono performance migliori usando stream bufferizzati.
 		 */
-		public void serialize(World world, DataOutputStream out) {
-			try {
-				out.writeLong(world.timeOffset);
-				
-				//Scrive le informazioni sul mondo
-				out.writeInt(world.worldInfo.getWorldWidth());
-				
-				//Scrive le informazioni sui giocatori
-				int playerInfoSize = world.playerInfo.size();
-				out.writeInt(playerInfoSize);
-				for(Team team : world.playerInfo.keySet()) {
-					serializeTeam(team, out);
-					out.writeDouble(world.playerInfo.get(team).getMoney());
-				}
-				
-				//Scrive le informazioni sulle entita'
-				int entitiesSize = world.entities.size();
-				out.writeInt(entitiesSize);
-				for(Entity entity : world.entities) {
-					serializeEntity(entity, out);
-				}
-				
-			} catch(IOException e) {
-				System.out.println("Was not able to serizlize World status\n" + e.getMessage());
+		public static void serialize(World world, DataOutputStream out) throws IOException {
+
+			out.writeLong(world.timeOffset);
+			
+			//Scrive le informazioni sul mondo
+			out.writeInt(world.worldInfo.getWorldWidth());
+			
+			//Scrive le informazioni sui giocatori
+			int playerInfoSize = world.playerInfo.size();
+			out.writeInt(playerInfoSize);
+			for(Team team : world.playerInfo.keySet()) {
+				serializeTeam(team, out);
+				out.writeDouble(world.playerInfo.get(team).getMoney());
 			}
+			
+			//Scrive le informazioni sulle entita'
+			int entitiesSize = world.entities.size();
+			out.writeInt(entitiesSize);
+			for(Entity entity : world.entities) {
+				serializeEntity(entity, out);
+			}
+
 		}
 		
 		/**
@@ -264,10 +284,10 @@ public class World {
 		private static void serializeTeam(Team team, DataOutputStream out) throws IOException {
 			switch(team) {
 			case BLUE:
-				out.writeInt(0);
+				out.writeInt(BLUE_ID);
 				break;
 			case RED:
-				out.writeInt(1);
+				out.writeInt(RED_ID);
 				break;
 			default:
 				throw new UnsupportedOperationException("Team not implemented yet");
@@ -285,26 +305,34 @@ public class World {
 			serializeTeam(entity.getTeam(), out);
 			out.writeDouble(entity.getBox().getX());
 			out.writeDouble(entity.getBox().getY());
-			out.writeDouble(entity.getBox().getWidth());
-			out.writeDouble(entity.getBox().getHeight());
 			
-			if(entity instanceof Archer) {
+			//Effettua un controllo sulle classi e non usando instanceof in modo da evitare
+			//problemi relativi ad eventuali sottoclassi aggiunte in un secondo momento
+			if(entity.getClass().equals(Archer.class)) {
 				Archer archer = (Archer) entity;
 				out.writeInt(ARCHER_ID);
+				serializeMobileEntity(archer, out);
 				serializeDamageableEntity(archer, out);
-			} else if(entity instanceof BasicArrow) {
+			} else if(entity.getClass().equals(BasicArrow.class)) {
+				BasicArrow arrow = (BasicArrow) entity;
 				out.writeInt(BASIC_ARROW_ID);
-			} else if(entity instanceof Champion) {
+				//Le frecce potrebbero avere attacchi diversi
+				out.writeInt(arrow.getAttack());
+				serializeMobileEntity(arrow, out);
+			} else if(entity.getClass().equals(Champion.class)) {
 				Champion champion = (Champion) entity;
 				out.writeInt(CHAMPTION_ID);
+				serializeMobileEntity(champion, out);
 				serializeDamageableEntity(champion, out);
-			} else if(entity instanceof Piker) {
+			} else if(entity.getClass().equals(Piker.class)) {
 				Piker piker = (Piker) entity;
 				out.writeInt(PIKER_ID);
+				serializeMobileEntity(piker, out);
 				serializeDamageableEntity(piker, out);
-			} else if(entity instanceof Soldier) {
+			} else if(entity.getClass().equals(Soldier.class)) {
 				Soldier soldier = (Soldier) entity;
 				out.writeInt(SOLDIER_ID);
+				serializeMobileEntity(soldier, out);
 				serializeDamageableEntity(soldier, out);
 			} else {
 				throw new UnsupportedOperationException("Entity not supported by serializer");
@@ -313,7 +341,6 @@ public class World {
 		
 		/**
 		 * Serializza le informazioni riassuntive relative alle entita' danneggiabili
-		 * 
 		 * @param entity L'entita' da serializzare
 		 * @param out Lo stream su cui serializzare l'unita'
 		 * @throws IOException Lanciata in caso di impossibilita' di scrivere sullo stream fornito
@@ -321,6 +348,133 @@ public class World {
 		private static void serializeDamageableEntity(DamageableEntity entity, DataOutputStream out) throws IOException {
 			out.writeInt(entity.getHp());
 		}
+		
+		/**
+		 * Serializza le informazioni riassuntibe relative alle entita' mobili
+		 * @param entity L'entita' da serializzare
+		 * @param out Lo stream su cui serializzare l'unita'
+		 * @throws IOException Lanciata in caso di impossibilita' di scrivere sullo stream fornito
+		 */
+		private static void serializeMobileEntity(MobileEntity entity, DataOutputStream out) throws IOException {
+			MovementDirection direction = entity.getMovementDirection();
+			switch(direction) {
+			case LEFT:
+				out.writeInt(LEFT_ID);
+				break;
+			case RIGHT:
+				out.writeInt(RIGHT_ID);
+				break;
+			default:
+				throw new UnsupportedOperationException("MovementDirection not supported by serializer");
+			}
+		}
+		
+		/**
+		 * Deserializza uno stato riassuntivo del mondo usando lo stream fornito
+		 * @param in Lo stream da deserializzare
+		 * @throws IOException Lancia l'eccezione in caso sia impossibile deserializzare dal flusso specificato
+		 * @return Lo stato riassuntivo del mondo deserializzato
+		 */
+		public static World deserialize(DataInputStream in) throws IOException {
+
+			long timeOffset = in.readLong();
+			
+			//Legge le informazioni sul mondo
+			int worldWidth = in.readInt();
+			WorldInfo worldInfo = new WorldInfo(worldWidth);
+			
+			//Legge le informazioni sui giocatori
+			Map<Team, PlayerInfo> playerInfo = new HashMap<>();
+			int playerNumber = in.readInt();
+			for(int i = 0; i < playerNumber; ++i) {
+				Team team = deserializeTeam(in);
+				double playerMoney = in.readDouble();
+				
+				playerInfo.put(team, new PlayerInfo(playerMoney));
+			}
+			
+			World world = new World(worldInfo, playerInfo);
+			world.timeOffset = timeOffset;
+			
+			//Legge le informazioni sulle entita'
+			int entityNumber = in.readInt();
+			for(int i = 0; i < entityNumber; ++i) {
+				Entity entity = deserializeEntity(in);
+				world.addEntity(entity);
+			}
+			
+			return world;
+		}
+		
+		private static Team deserializeTeam(DataInputStream in) throws IOException {
+			int teamId = in.readInt();
+			
+			if(teamId == BLUE_ID) {
+				return Team.BLUE;
+			} else if(teamId == RED_ID) {
+				return Team.RED;
+			} else {
+				throw new UnsupportedOperationException("Team not supported by deserializer");
+			}
+		}
+		
+		private static MovementDirection deserializeMovementDirection(DataInputStream in) throws IOException {
+			int directionId = in.readInt();
+			
+			if(directionId == LEFT_ID) {
+				return MovementDirection.LEFT;
+			} else if(directionId == RIGHT_ID) {
+				return MovementDirection.RIGHT;
+			} else {
+				throw new UnsupportedOperationException("Direction not supported by deserializer");
+			}
+		}
+		
+		private static Entity deserializeEntity(DataInputStream in) throws IOException {
+			Team team = deserializeTeam(in);
+			double x = in.readDouble();
+			double y = in.readDouble();
+			
+			int entityId = in.readInt();
+			
+			Entity deserializedEntity;
+			
+			if(entityId == ARCHER_ID) {
+				MovementDirection direction = deserializeMovementDirection(in);
+				int currentHp = in.readInt();
+				Archer archer = new Archer(team, x, direction);
+				archer.setHp(currentHp);
+				deserializedEntity = archer;
+			} else if(entityId == BASIC_ARROW_ID) {
+				int attack = in.readInt();
+				MovementDirection direction = deserializeMovementDirection(in);
+				BasicArrow arrow = new BasicArrow(team, x, y, direction, attack);
+				deserializedEntity = arrow;
+			} else if(entityId == CHAMPTION_ID) {
+				MovementDirection direction = deserializeMovementDirection(in);
+				int currentHp = in.readInt();
+				Champion champion = new Champion(team, x, direction);
+				champion.setHp(currentHp);
+				deserializedEntity = champion;
+			} else if(entityId == PIKER_ID) {
+				MovementDirection direction = deserializeMovementDirection(in);
+				int currentHp = in.readInt();
+				Piker piker = new Piker(team, x, direction);
+				piker.setHp(currentHp);
+				deserializedEntity = piker;
+			} else if(entityId == SOLDIER_ID) {
+				MovementDirection direction = deserializeMovementDirection(in);
+				int currentHp = in.readInt();
+				Soldier soldier = new Soldier(team, x, direction);
+				soldier.setHp(currentHp);
+				deserializedEntity = soldier;
+			} else {
+				throw new UnsupportedOperationException("Entity not supporded by deserializer");
+			}
+			
+			return deserializedEntity;
+		}
+		
 		
 	}
 	

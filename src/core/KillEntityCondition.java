@@ -1,5 +1,7 @@
 package core;
 
+import core.entities.DamageableEntity;
+
 /**
  * Condizione che viene soddisfatta se l'entita' specificata muore
  *  
