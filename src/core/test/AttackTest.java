@@ -56,7 +56,7 @@ public class AttackTest {
 		world.addEntity(blu);
 		world.addEntity(red);
 		
-		for(int i = 0; i < 500; ++i) {
+		for(int i = 0; i < 500000; ++i) {
 			world.simulate(200);
 			System.out.println("BLU: " + blu.getBox().getCenterX() + " " + blu.getHp() + " : RED " + red.getBox().getCenterX() + " " + red.getHp());
 		}

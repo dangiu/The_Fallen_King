@@ -9,7 +9,6 @@ import core.PlayerInfo;
 import core.Team;
 import core.World;
 
-//TODO Implementare soldi
 
 /**
  * Classe astratta che fornisce la base per implementare entita' che attaccano nemici

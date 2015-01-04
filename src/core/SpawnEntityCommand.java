@@ -24,4 +24,8 @@ public class SpawnEntityCommand implements Command {
 	public void execute(World world) {
 		world.addEntity(entityToSpawn);
 	}
+	
+	Entity getEntity() {
+		return entityToSpawn;
+	}
 }
