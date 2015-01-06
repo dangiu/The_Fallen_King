@@ -9,21 +9,21 @@ package graphic;
  */
 public class SizeConverter {
 	//costanti di conversione
-	private long pixelsToMeters;
-	private long metersToPixels;
+	private double pixelsToMeters;
+	private double metersToPixels;
 	
 	
-	public SizeConverter(long pWorldWidth, long pPixelWidth) {
+	public SizeConverter(double pWorldWidth, int pPixelWidth) {
 		pixelsToMeters = pWorldWidth / pPixelWidth;
 		metersToPixels = pPixelWidth / pWorldWidth;
 		
 	}
 	
-	public long toMeters(long nPixels) {
+	public double toMeters(int nPixels) {
 		return (nPixels * pixelsToMeters);
 	}
 	
-	public long toPixels(long nMeters) {
-		return (nMeters * metersToPixels);
+	public int toPixels(double nMeters) {
+		return (int) (nMeters * metersToPixels);
 	}
 }

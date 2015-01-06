@@ -15,6 +15,7 @@ import core.entities.Soldier;
 
 public class TextureProvider {
 	
+	private static final int TEXTURE_TIME_SWITCH = 200;
 	private BufferedImage walkTexture1;
 	private BufferedImage walkTexture2;
 	private static Map<Class<?>, TextureProvider> textureMap;
@@ -52,7 +53,7 @@ public class TextureProvider {
 	}
 	
 	public BufferedImage getWalkTexture(long timeOffset) {
-		long textureToReturn = timeOffset%2;
+		long textureToReturn = timeOffset%TEXTURE_TIME_SWITCH;
 		if(textureToReturn < 1) {
 			return walkTexture1;
 		}else{
