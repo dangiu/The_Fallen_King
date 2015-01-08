@@ -10,7 +10,7 @@ import core.Team;
  */
 public class Champion extends PhysicalAttacker implements MobileEntity, DamageableEntity, BuyableEntity {
 	private static final double height = 2.0;
-	private static final double width = 0.3;
+	private static final double width = 2.5;
 	private int attack = 20;
 	private int attackCooldown = 1500;
 	private double range = 2;

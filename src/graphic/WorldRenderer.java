@@ -27,7 +27,7 @@ public class WorldRenderer {
 	}
 	
 	public void render(Graphics g, long timeOffset) {
-		g.clearRect(0, 0, 800, 800 / 16 * 9);
+		g.clearRect(0, 0, 820, 800 / 16 * 9);
 		Iterator<Entity> entities = world.getEntityIterator();
 		while(entities.hasNext()) {
 			Entity currentEntity = entities.next();

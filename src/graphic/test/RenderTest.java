@@ -18,6 +18,7 @@ import core.Team;
 import core.World;
 import core.WorldInfo;
 import core.entities.Archer;
+import core.entities.Champion;
 import core.entities.DamageableEntity;
 import core.entities.MovementDirection;
 import core.entities.Soldier;
@@ -32,10 +33,10 @@ public class RenderTest extends Canvas{
 	private Thread thread;
 	private static int WIDTH = 800;
 	private static int HEIGHT = WIDTH / 16 * 9;
-	private static int SCALE = 1;
+	private static double SCALE = 1.4;
 	
 	public RenderTest() {
-		Dimension windowSize = new Dimension(WIDTH * SCALE, HEIGHT * SCALE);
+		Dimension windowSize = new Dimension((int)(WIDTH * SCALE), (int)(HEIGHT * SCALE));
 		setPreferredSize(windowSize);
 	}
 	
@@ -60,6 +61,7 @@ public class RenderTest extends Canvas{
 				DamageableEntity red = new Soldier(Team.RED, 2, MovementDirection.RIGHT);
 				DamageableEntity red1 = new Archer(Team.RED, 1, MovementDirection.RIGHT);
 				DamageableEntity red2 = new Archer(Team.RED, 1, MovementDirection.RIGHT);
+				DamageableEntity red3 = new Champion(Team.RED, -1, MovementDirection.RIGHT);
 				
 				world.addEntity(blu);
 				world.addEntity(red);
@@ -68,6 +70,7 @@ public class RenderTest extends Canvas{
 				world.addEntity(blu2);
 				world.addEntity(blu3);
 				world.addEntity(red1);
+				world.addEntity(red3);
 				while(isRunning) {
 					world.simulate(10);
 					long init = System.nanoTime();
