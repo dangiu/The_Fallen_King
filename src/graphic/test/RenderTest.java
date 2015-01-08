@@ -45,7 +45,7 @@ public class RenderTest extends Canvas{
 
 			@Override
 			public void run() {
-				final int WORLD_WIDTH = 11;
+				final int WORLD_WIDTH = 50;
 				WorldInfo worldInfo = new WorldInfo(WORLD_WIDTH);
 				Map<Team, PlayerInfo> playerInfo = new HashMap<>();
 				playerInfo.put(Team.BLUE, new PlayerInfo(100));
@@ -53,17 +53,23 @@ public class RenderTest extends Canvas{
 				
 				World world = new World(worldInfo, playerInfo);
 				
-				DamageableEntity blu = new Soldier(Team.BLUE, 11, MovementDirection.LEFT);
-				DamageableEntity blu1 = new Archer(Team.BLUE, 10, MovementDirection.LEFT);
-				DamageableEntity red = new Soldier(Team.RED, 0, MovementDirection.RIGHT);
+				DamageableEntity blu = new Soldier(Team.BLUE, 48, MovementDirection.LEFT);
+				DamageableEntity blu1 = new Archer(Team.BLUE, 49, MovementDirection.LEFT);
+				DamageableEntity blu2 = new Soldier(Team.BLUE, 47, MovementDirection.LEFT);
+				DamageableEntity blu3 = new Soldier(Team.BLUE, 47, MovementDirection.LEFT);
+				DamageableEntity red = new Soldier(Team.RED, 2, MovementDirection.RIGHT);
 				DamageableEntity red1 = new Archer(Team.RED, 1, MovementDirection.RIGHT);
+				DamageableEntity red2 = new Archer(Team.RED, 1, MovementDirection.RIGHT);
 				
 				world.addEntity(blu);
 				world.addEntity(red);
 				world.addEntity(blu1);
+				world.addEntity(red2);
+				world.addEntity(blu2);
+				world.addEntity(blu3);
 				world.addEntity(red1);
 				while(isRunning) {
-					world.simulate(1);
+					world.simulate(10);
 					long init = System.nanoTime();
 					render(world);
 					long end = System.nanoTime();
