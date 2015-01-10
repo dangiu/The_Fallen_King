@@ -9,7 +9,6 @@ import core.PlayerInfo;
 import core.Team;
 import core.World;
 
-
 /**
  * Classe astratta che fornisce la base per implementare entita' che attaccano nemici
  * all'interno del loro range. Non e' applicabile a entita' che interagiscono con entita'

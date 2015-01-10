@@ -11,7 +11,7 @@ import core.Team;
 public class Archer extends SpawnerAttacker implements MobileEntity, DamageableEntity, BuyableEntity {
 	
 	private static final double height = 1.7;
-	private static final double width = 0.3;
+	private static final double width = 1.75;
 	private int attack = 10;
 	private int attackCooldown = 2000;
 	private double range = 20;

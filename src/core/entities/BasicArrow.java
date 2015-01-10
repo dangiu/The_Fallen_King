@@ -16,7 +16,7 @@ public class BasicArrow extends KamikazeAttacker implements MobileEntity {
 	private int attack; //Il suo attacco dipende dall'entita' che spawna la freccia
 	private int attackCooldown = -1; //Non effettua piu' di un attacco
 	private double range = 0; //Colpisce solo al contatto
-	private double movementSpeed = 5;
+	private double movementSpeed = 10;
 	private MovementEngine movementEngine;
 
 	public BasicArrow(Team team, double xSpawnCoordinates, double ySpawnCoordinates, MovementDirection direction, int attack) {
