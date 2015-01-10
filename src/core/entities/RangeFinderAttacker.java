@@ -25,7 +25,7 @@ abstract class RangeFinderAttacker implements AttackerEntity {
 	
 	private int currentCooldown = 0; //Il tempo che deve ancora trascorrere prima di poter attaccare nuovamente
 	
-	private List<Entity> cachedInRangeEnemies = null;
+	private List<DamageableEntity> cachedInRangeEnemies = null;
 	private boolean enemyCacheAvailable = false;
 	
 	/**
@@ -88,7 +88,7 @@ abstract class RangeFinderAttacker implements AttackerEntity {
 	private boolean findInRange(World world) {
 		boolean attackedSomeone = false;
 		
-		Iterator<Entity> iterator;
+		Iterator<? extends Entity> iterator;
 		//Se sono gia' state calcolate le unita' nel range allora non e' necessario ricalcolarle
 		if(enemyCacheAvailable) {
 			iterator = cachedInRangeEnemies.iterator();

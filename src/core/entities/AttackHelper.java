@@ -49,35 +49,39 @@ final class AttackHelper {
 	}
 	
 	/**
-	 * Cerca l'insieme delle entita' che si trovano nel range di un'altra entita'
+	 * Cerca l'insieme delle entita' danneggiabili che si trovano nel range di un'altra entita'
 	 * 
 	 * @param searcher L'entita' di cui si vogliono trovare le altre entita' in range
 	 * @param world Il contesto in cui cercare le entita'
 	 * @param mode Il tipo di unita' da ricercare (amiche, nemiche, ecc)
 	 * @return L'insieme delle entita' che si trovano in range di searcher
 	 */
-	static List<Entity> getInRangeEntities(RangedEntity searcher, World world, SearchMode mode) {
-		List<Entity> inRangeEntities = new ArrayList<>();
+	static List<DamageableEntity> getInRangeEntities(RangedEntity searcher, World world, SearchMode mode) {
+		List<DamageableEntity> inRangeEntities = new ArrayList<>();
 		Iterator<Entity> iterator = world.getEntityIterator();
 		while(iterator.hasNext()) {
 			Entity currentEntity = iterator.next();
-			
-			switch(mode) {
-			case ANY:
-				if(isInRange(searcher, currentEntity)) {
-					inRangeEntities.add(currentEntity);
+			if(currentEntity instanceof DamageableEntity) {
+				DamageableEntity damageableEntity = (DamageableEntity) currentEntity;
+				switch(mode) {
+				case ANY:
+					if(isInRange(searcher, damageableEntity)) {
+						inRangeEntities.add(damageableEntity);
+					}
+					break;
+				case FRIEND:
+					if(searcher.getTeam() == damageableEntity.getTeam() && isInRange(searcher, damageableEntity)) {
+						inRangeEntities.add(damageableEntity);
+					}
+					break;
+				case ENEMY:
+					if(searcher.getTeam() != damageableEntity.getTeam() && isInRange(searcher, damageableEntity)) {
+						inRangeEntities.add(damageableEntity);
+					}
+					break;
+				default:
+					throw new UnsupportedOperationException("Unknown SearchMode");
 				}
-				break;
-			case FRIEND:
-				if(searcher.getTeam() == currentEntity.getTeam() && isInRange(searcher, currentEntity)) {
-					inRangeEntities.add(currentEntity);
-				}
-				break;
-			case ENEMY:
-				if(searcher.getTeam() != currentEntity.getTeam() && isInRange(searcher, currentEntity)) {
-					inRangeEntities.add(currentEntity);
-				}
-				break;
 			}
 			
 		}
