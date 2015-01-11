@@ -53,6 +53,8 @@ public class Soldier extends PhysicalAttacker implements MobileEntity, Damageabl
 		if(hp > getMaxHp()) {
 			throw new IllegalArgumentException("New HP must not be greater than MaxHp");
 		}
+		
+		currentHp = hp;
 	}
 	
 	@Override

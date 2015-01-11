@@ -52,6 +52,8 @@ public class Champion extends PhysicalAttacker implements MobileEntity, Damageab
 		if(hp > getMaxHp()) {
 			throw new IllegalArgumentException("New HP must not be greater than MaxHp");
 		}
+		
+		currentHp = hp;
 	}
 
 	@Override

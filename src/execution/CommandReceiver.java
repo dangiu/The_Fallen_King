@@ -24,7 +24,7 @@ class CommandReceiver {
 	private ChannelListener listener;
 	
 	/**
-	 * Crea un ricevitore di comandi in ascolto su un dato canale
+	 * Crea un ricevitore di comandi in ascolto su un dato canale senza avviarlo
 	 * @param in Il canale da ascoltare. Deve essere != null
 	 */
 	public CommandReceiver(DataInputStream in) {
@@ -33,11 +33,19 @@ class CommandReceiver {
 		}
 		
 		listener = new ChannelListener(in, commands);
+
+	}
+	
+	/**
+	 * Inizia la ricezione dei comandi
+	 * Non puo' essere richiamato dopo aver terminato l'ascolto del canale
+	 */
+	public void start() {
 		listener.start();
 	}
 	
 	/**
-	 * Termina l'ascolto del canale da parte del listener
+	 * Termina irreversibilmente l'ascolto del canale da parte del listener
 	 */
 	public void dispose() {
 		listener.requestStop();

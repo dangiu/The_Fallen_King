@@ -27,13 +27,14 @@ public class ConnectionHandler {
 	private boolean connectionsEstablished = false;
 	
 	//Socket per la trasmissione dello stato del mondo
-	private Map<Team, Socket> stateTransferSockets = new HashMap<>();
+	private Map<Team, Socket> stateTransferSockets;
 	
 	//Socket per la ricezione dei comandi
-	private Map<Team, Socket> commandReceptionSockets = new HashMap<>();
+	private Map<Team, Socket> commandReceptionSockets;
 	
 	public ConnectionHandler() {
-		
+		stateTransferSockets = new HashMap<>();
+		commandReceptionSockets = new HashMap<>();
 	}
 	
 	/**
@@ -51,6 +52,7 @@ public class ConnectionHandler {
 		ServerSocket stateServer = new ServerSocket(STATE_SERVER_PORT);
 		ServerSocket commandServer = new ServerSocket(COMMAND_SERVER_PORT);
 		
+		//Riceve le connessioni dei client di ogni team
 		try {
 			for(Team team : Team.values()) {
 				
@@ -63,7 +65,6 @@ public class ConnectionHandler {
 				DataOutputStream outStream = new DataOutputStream(new BufferedOutputStream(stateSocket.getOutputStream()));
 				TeamSerializationHelper.serializeTeam(team, outStream);
 				outStream.flush(); //Si forza l'invio dei dati
-				outStream.close(); //Libera le risorse
 				
 			}
 		} catch(IOException e) {

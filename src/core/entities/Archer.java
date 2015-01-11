@@ -59,6 +59,8 @@ public class Archer extends SpawnerAttacker implements MobileEntity, DamageableE
 		if(hp > getMaxHp()) {
 			throw new IllegalArgumentException("New HP must not be greater than MaxHp");
 		}
+		
+		currentHp = hp;
 	}
 
 	@Override
