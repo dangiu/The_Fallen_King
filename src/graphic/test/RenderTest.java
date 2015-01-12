@@ -19,7 +19,6 @@ import core.World;
 import core.WorldInfo;
 import core.entities.Archer;
 import core.entities.Champion;
-import core.entities.DamageableEntity;
 import core.entities.MovementDirection;
 import core.entities.Soldier;
 
@@ -33,7 +32,7 @@ public class RenderTest extends Canvas{
 	private Thread thread;
 	private static int WIDTH = 800;
 	private static int HEIGHT = WIDTH / 16 * 9;
-	private static double SCALE = 1.4;
+	private static double SCALE = 1;
 	
 	public RenderTest() {
 		Dimension windowSize = new Dimension((int)(WIDTH * SCALE), (int)(HEIGHT * SCALE));
@@ -46,7 +45,7 @@ public class RenderTest extends Canvas{
 
 			@Override
 			public void run() {
-				final int WORLD_WIDTH = 50;
+				final int WORLD_WIDTH = 20;
 				WorldInfo worldInfo = new WorldInfo(WORLD_WIDTH);
 				Map<Team, PlayerInfo> playerInfo = new HashMap<>();
 				playerInfo.put(Team.BLUE, new PlayerInfo(100));
@@ -54,26 +53,24 @@ public class RenderTest extends Canvas{
 				
 				World world = new World(worldInfo, playerInfo);
 				
-				DamageableEntity blu = new Soldier(Team.BLUE, 48, MovementDirection.LEFT);
-				DamageableEntity blu1 = new Archer(Team.BLUE, 49, MovementDirection.LEFT);
-				DamageableEntity blu2 = new Soldier(Team.BLUE, 47, MovementDirection.LEFT);
-				DamageableEntity blu3 = new Soldier(Team.BLUE, 47, MovementDirection.LEFT);
-				DamageableEntity red = new Soldier(Team.RED, 2, MovementDirection.RIGHT);
-				DamageableEntity red1 = new Archer(Team.RED, 1, MovementDirection.RIGHT);
-				DamageableEntity red2 = new Archer(Team.RED, 1, MovementDirection.RIGHT);
-				DamageableEntity red3 = new Champion(Team.RED, -1, MovementDirection.RIGHT);
+				world.addEntity(new Soldier(Team.BLUE, WORLD_WIDTH-2, MovementDirection.LEFT));
+				world.addEntity(new Archer(Team.BLUE, WORLD_WIDTH-1, MovementDirection.LEFT));
+				world.addEntity(new Soldier(Team.BLUE, WORLD_WIDTH-3, MovementDirection.LEFT));
+				world.addEntity(new Soldier(Team.BLUE, WORLD_WIDTH-3, MovementDirection.LEFT));
+				world.addEntity(new Soldier(Team.RED, 2, MovementDirection.RIGHT));
+				world.addEntity(new Archer(Team.RED, 1, MovementDirection.RIGHT));
+				world.addEntity(new Archer(Team.RED, 1, MovementDirection.RIGHT));
+				world.addEntity(new Champion(Team.RED, -1, MovementDirection.RIGHT));
+				world.addEntity(new Soldier(Team.BLUE, WORLD_WIDTH-2, MovementDirection.LEFT));
+				world.addEntity(new Archer(Team.BLUE, WORLD_WIDTH-8, MovementDirection.LEFT));
+				world.addEntity(new Soldier(Team.BLUE, WORLD_WIDTH-3, MovementDirection.LEFT));
+				world.addEntity(new Archer(Team.RED, 4, MovementDirection.RIGHT));
+				world.addEntity(new Archer(Team.RED, 1, MovementDirection.RIGHT));
+				world.addEntity(new Champion(Team.BLUE, WORLD_WIDTH, MovementDirection.LEFT));
 				
-				world.addEntity(blu);
-				world.addEntity(red);
-				world.addEntity(blu1);
-				world.addEntity(red2);
-				world.addEntity(blu2);
-				world.addEntity(blu3);
-				world.addEntity(red1);
-				world.addEntity(red3);
 				while(isRunning) {
-					world.simulate(10);
 					long init = System.nanoTime();
+					world.simulate(3);
 					render(world);
 					long end = System.nanoTime();
 					System.out.println((end-init)/1000000);
@@ -103,11 +100,8 @@ public class RenderTest extends Canvas{
 		}
 		Graphics2D g = (Graphics2D)bs.getDrawGraphics();
 		
-		WorldRenderer renderer = new WorldRenderer(world, WIDTH);
-		long init = System.nanoTime();
+		WorldRenderer renderer = new WorldRenderer(world, WIDTH, HEIGHT);
 		renderer.render(g, 0);
-		long end = System.nanoTime();
-		System.out.println((end-init)/1000000);
 		g.dispose();
 		bs.show();
 	}

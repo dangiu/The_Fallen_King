@@ -17,6 +17,13 @@ import core.entities.Champion;
 import core.entities.Piker;
 import core.entities.Soldier;
 
+/**
+ * Classe che si occupa di caricare tutte le texture per ogni elemento all'interno del programma,
+ * contiene inoltre alcuni metodi che permettono di manipolare le texture
+ * 
+ * @author Daniele Giuliani
+ *
+ */
 public class TextureProvider {
 	
 	private static final int TEXTURE_TIME_SWITCH = 200;

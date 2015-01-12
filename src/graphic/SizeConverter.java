@@ -6,6 +6,7 @@ package graphic;
  * elementi
  * 
  * @author Daniele Giuliani
+ * 
  */
 public class SizeConverter {
 	//costanti di conversione

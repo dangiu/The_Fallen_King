@@ -13,21 +13,26 @@ import core.entities.MovementDirection;
  * Classe che contiene tutte le informazioni per eseguire il rendering di uno stato del mondo
  * 
  * @author Daniele Giuliani
+ * 
  */
 public class WorldRenderer {
 	
 	private World world;
 	private TextureProvider textureMap;
 	private SizeConverter sizeConverter;
+	private int windowPixelWidth;
+	private int windowPixelHeight;
 	
-	public WorldRenderer(World pWorld, int windowPixelWidth) {
+	public WorldRenderer(World pWorld, int pWindowPixelWidth, int pWindowPixelHeight) {
+		windowPixelWidth = pWindowPixelWidth;
+		windowPixelHeight = pWindowPixelHeight;
 		world = pWorld;
 		sizeConverter = new SizeConverter(world.getWorldInfo().getWorldWidth(), windowPixelWidth);
 		textureMap = new TextureProvider();
 	}
 	
 	public void render(Graphics g, long timeOffset) {
-		g.clearRect(0, 0, 820, 800 / 16 * 9);
+		g.clearRect(0, 0, windowPixelWidth + 10, windowPixelHeight + 10);//pulire l'intera finestra +10 serve perche' altrimenti non copre alcuni pixel della finestra
 		Iterator<Entity> entities = world.getEntityIterator();
 		while(entities.hasNext()) {
 			Entity currentEntity = entities.next();
