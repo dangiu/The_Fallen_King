@@ -21,8 +21,8 @@ import core.TeamSerializationHelper;
  */
 public class ConnectionHandler {
 
-	private int STATE_SERVER_PORT = 4069;
-	private int COMMAND_SERVER_PORT = 4070;
+	static final int STATE_SERVER_PORT = 4069;
+	static final int COMMAND_SERVER_PORT = 4070;
 	
 	private boolean connectionsEstablished = false;
 	
@@ -126,7 +126,7 @@ public class ConnectionHandler {
 	 * Ritorna lo stream di input di comandi associato al team
 	 * @param team Il team di cui si vogliono ricevere i comandi
 	 * @return Lo stream su cui si ricevono i comandi
-	 * @throws IOException  In caso sia impossibile stabilire la connessione
+	 * @throws IOException In caso sia impossibile stabilire la connessione
 	 */
 	public InputStream getCommandInput(Team team) throws IOException {
 		if(!connectionsEstablished) {
