@@ -54,12 +54,12 @@ public class TextureProvider {
 	
 	static {
 		textureMap = new HashMap<>();
-		TextureProvider archer = new TextureProvider("/resources/textures/archer1.png", "/resources/textures/archer1.png");
-		TextureProvider champion = new TextureProvider("/resources/textures/champion1.png", "/resources/textures/champion1.png");
+		TextureProvider archer = new TextureProvider("/textures/archer1.png", "/textures/archer2.png");
+		TextureProvider champion = new TextureProvider("/textures/champion1.png", "/textures/champion1.png");
 		//le texture di piker sono nominate sbagliate!!!! PIKER --> PICKER
-		TextureProvider piker = new TextureProvider("/resources/textures/picker1.png", "/resources/textures/picker1.png");
-		TextureProvider soldier = new TextureProvider("/resources/textures/soldier1.png", "/resources/textures/soldier1.png");
-		TextureProvider arrow = new TextureProvider("/resources/textures/arrow.png", "/resources/textures/arrow.png");
+		TextureProvider piker = new TextureProvider("/textures/picker1.png", "/textures/picker1.png");
+		TextureProvider soldier = new TextureProvider("/textures/soldier1.png", "/textures/soldier1.png");
+		TextureProvider arrow = new TextureProvider("/textures/arrow.png", "/textures/arrow.png");
 		
 		textureMap.put(Archer.class, archer);
 		textureMap.put(Champion.class, champion);

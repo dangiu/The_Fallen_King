@@ -31,6 +31,11 @@ public class WorldRenderer {
 		textureMap = new TextureProvider();
 	}
 	
+	/**
+	 * Metodo che renderizza un singolo frame del gioco
+	 * @param g l'oggetto utilizzato per disegnare
+	 * @param timeOffset il tempo di gioco
+	 */
 	public void render(Graphics g, long timeOffset) {
 		g.clearRect(0, 0, windowPixelWidth + 10, windowPixelHeight + 10);//pulire l'intera finestra +10 serve perche' altrimenti non copre alcuni pixel della finestra
 		Iterator<Entity> entities = world.getEntityIterator();
