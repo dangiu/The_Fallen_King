@@ -19,8 +19,8 @@ public class Soldier extends PhysicalAttacker implements MobileEntity, Damageabl
 	private int currentHp = maxHp;
 	private int defense = 1;
 	private double movementSpeed = 2;
-	public int baseMoneyOnBuy = 75;
-	public int baseMoneyOnKill = 75;
+	public static int baseMoneyOnBuy = 75;
+	public int baseMoneyOnKill = 30;
 	private MovementEngine movementEngine;
 
 	public Soldier(Team team, double xSpawnCoordinates, MovementDirection direction) {

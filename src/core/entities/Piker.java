@@ -11,7 +11,7 @@ import core.Team;
 public class Piker extends PhysicalAttacker implements MobileEntity, DamageableEntity, BuyableEntity {
 
 	private static final double height = 1.7;
-	private static final double width = 0.3;
+	private static final double width = 1.75;
 	private int attack = 10;
 	private int attackCooldown = 1500;
 	private double range = 1.5;
@@ -19,8 +19,8 @@ public class Piker extends PhysicalAttacker implements MobileEntity, DamageableE
 	private int currentHp = maxHp;
 	private int defense = 0; //Nessuna difesa
 	private double movementSpeed = 2;
-	public int baseMoneyOnBuy = 50;
-	public int baseMoneyOnKill = 50;
+	public static int baseMoneyOnBuy = 50;
+	public int baseMoneyOnKill = 20;
 	private MovementEngine movementEngine;
 
 	public Piker(Team team, double xSpawnCoordinates, MovementDirection direction) {

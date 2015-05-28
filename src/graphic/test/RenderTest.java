@@ -1,5 +1,6 @@
 package graphic.test;
 
+import graphic.Textbox;
 import graphic.WorldRenderer;
 
 import java.awt.Canvas;
@@ -68,6 +69,8 @@ public class RenderTest extends Canvas{
 				world.addEntity(new Archer(Team.RED, 1, MovementDirection.RIGHT));
 				world.addEntity(new Champion(Team.BLUE, WORLD_WIDTH, MovementDirection.LEFT));
 				
+				
+				
 				while(isRunning) {
 					long init = System.nanoTime();
 					world.simulate(3);
@@ -100,8 +103,14 @@ public class RenderTest extends Canvas{
 		}
 		Graphics2D g = (Graphics2D)bs.getDrawGraphics();
 		
-		WorldRenderer renderer = new WorldRenderer(world, WIDTH, HEIGHT);
+		WorldRenderer renderer = new WorldRenderer(WIDTH, HEIGHT);
 		renderer.render(g, 0);
+		
+		Textbox test = new Textbox(100, 100, 150, 50);
+		Textbox test2 = new Textbox(100, 160, 200, 70);
+		test.draw(g);
+		test2.draw(g);
+		
 		g.dispose();
 		bs.show();
 	}

@@ -3,9 +3,7 @@ package graphic;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +24,7 @@ import core.entities.Soldier;
  */
 public class TextureProvider {
 	
-	private static final int TEXTURE_TIME_SWITCH = 200;
+	private static final int TEXTURE_TIME_SWITCH = 30;
 	private BufferedImage walkTexture1;
 	private BufferedImage walkTexture2;
 	private static Map<Class<?>, TextureProvider> textureMap;
@@ -36,18 +34,14 @@ public class TextureProvider {
 	private TextureProvider(String pathWalkTexture1, String pathWalkTexture2) {
 		//walk1
 		try {
-			walkTexture1 = ImageIO.read(new File(getClass().getResource(pathWalkTexture1).toURI()));
+			walkTexture1 = ImageIO.read(getClass().getResourceAsStream(pathWalkTexture1));
 		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
 		//walk2
 		try {
-			walkTexture2 = ImageIO.read(new File(getClass().getResource(pathWalkTexture2).toURI()));
+			walkTexture2 = ImageIO.read(getClass().getResourceAsStream(pathWalkTexture2));
 		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
 	}

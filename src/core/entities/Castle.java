@@ -11,7 +11,7 @@ public class Castle implements DamageableEntity {
 	private Team team;
 	
 	private static final double height = 10;
-	private static final double width = 15;
+	public static final double width = 15;
 	
 	private int maxHp = 300;
 	private int currentHp = maxHp;

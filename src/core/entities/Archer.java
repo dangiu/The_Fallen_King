@@ -14,13 +14,13 @@ public class Archer extends SpawnerAttacker implements MobileEntity, DamageableE
 	private static final double width = 1.75;
 	private int attack = 10;
 	private int attackCooldown = 2000;
-	private double range = 20;
+	private double range = 13;
 	private int maxHp = 20;
 	private int currentHp = maxHp;
 	private int defense = 0;
 	private double movementSpeed = 2;
-	public int baseMoneyOnBuy = 100;
-	public int baseMoneyOnKill = 100;
+	public static int baseMoneyOnBuy = 100;
+	public int baseMoneyOnKill = 40;
 	private MovementEngine movementEngine;
 
 	public Archer(Team team, double xSpawnCoordinates, MovementDirection direction) {

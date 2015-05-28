@@ -18,8 +18,8 @@ public class Champion extends PhysicalAttacker implements MobileEntity, Damageab
 	private int currentHp = maxHp;
 	private int defense = 3;
 	private double movementSpeed = 1.2;
-	public int baseMoneyOnBuy = 200;
-	public int baseMoneyOnKill = 200;
+	public static int baseMoneyOnBuy = 400;
+	public int baseMoneyOnKill = 160;
 	private MovementEngine movementEngine;
 
 	public Champion(Team team, double xSpawnCoordinates, MovementDirection direction) {

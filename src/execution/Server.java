@@ -61,14 +61,14 @@ class Server {
 		
 		Map<Team, PlayerInfo> playerInfo = new HashMap<>();
 		
-		world = new World(worldInfo, playerInfo);
-		
 		playerInfo.put(Team.BLUE, new PlayerInfo(500));
 		playerInfo.put(Team.RED, new PlayerInfo(500));
+		world = new World(worldInfo, playerInfo);
+		
 		
 		//Inserisce i castelli
-		Castle blueCastle = new Castle(Team.BLUE, 0);
-		Castle redCastle = new Castle(Team.RED, worldInfo.getWorldWidth() - blueCastle.getBox().getWidth());
+		Castle blueCastle = new Castle(Team.BLUE, 0 - Castle.width/2);
+		Castle redCastle = new Castle(Team.RED, worldInfo.getWorldWidth() - blueCastle.getBox().getWidth()/2);
 		
 		world.addEntity(blueCastle);
 		world.addEntity(redCastle);

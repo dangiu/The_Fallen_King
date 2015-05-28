@@ -79,6 +79,14 @@ public class World {
 	}
 	
 	/**
+	 * 
+	 * @return I millisecondi che il mondo è stato simulato
+	 */
+	public long getTimeOffset() {
+		return timeOffset;
+	}
+	
+	/**
 	 * Effettua la sincronizzazione della lista di entita' effettuando le
 	 * aggiunte e le rimozioni differite
 	 */

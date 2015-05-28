@@ -8,7 +8,7 @@ package core;
  */
 public class PlayerInfo {
 	private double money;
-	private double moneyPerSecond = 10;
+	private double moneyPerSecond = 2;
 	
 	/**
 	 * Crea un nuovo giocatore assegnando denaro iniziale

@@ -30,6 +30,7 @@ public class WorldReceiver {
 			throw new NullPointerException("Command input stream must be != null");
 		}
 		listener = new WorldListener(pIn, this);
+		worldChange = false;
 	}
 	
 	/**
@@ -48,6 +49,9 @@ public class WorldReceiver {
 	 * @param pWorld
 	 */
 	public synchronized World getWorld() {
+		if(worldChange == false || currentWorld == null) {
+			throw new IllegalStateException("There must be a world to read");
+		}
 		worldChange = false;
 		return this.currentWorld;
 		

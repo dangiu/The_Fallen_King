@@ -56,7 +56,7 @@ class CommandReceiver {
 	 * @return true se e' disponibile un nuovo comando
 	 */
 	public boolean isCommandAvailable() {
-		return commands.peek() == null;
+		return commands.peek() != null;
 	}
 	
 	/**

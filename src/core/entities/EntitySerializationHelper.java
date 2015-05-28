@@ -19,6 +19,7 @@ public class EntitySerializationHelper {
 	private static final int CHAMPTION_ID = 2;
 	private static final int PIKER_ID = 3;
 	private static final int SOLDIER_ID = 4;
+	private static final int CASTLE_ID = 5;
 	
 	private EntitySerializationHelper() {};
 
@@ -62,6 +63,10 @@ public class EntitySerializationHelper {
 			out.writeInt(SOLDIER_ID);
 			serializeMobileEntity(soldier, out);
 			serializeDamageableEntity(soldier, out);
+		}  else if(entity.getClass().equals(Castle.class)) {
+			Castle castle = (Castle) entity;
+			out.writeInt(CASTLE_ID);
+			serializeDamageableEntity(castle, out);
 		} else {
 			throw new UnsupportedOperationException("Entity not supported by serializer");
 		}
@@ -126,6 +131,11 @@ public class EntitySerializationHelper {
 			Soldier soldier = new Soldier(team, x, direction);
 			soldier.setHp(currentHp);
 			deserializedEntity = soldier;
+		} else if(entityId == CASTLE_ID) {
+			int currentHp = in.readInt();
+			Castle castle = new Castle(team, x);
+			castle.setHp(currentHp);
+			deserializedEntity = castle;
 		} else {
 			throw new UnsupportedOperationException("Entity not supporded by deserializer");
 		}

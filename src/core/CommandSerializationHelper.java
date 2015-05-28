@@ -40,6 +40,7 @@ public class CommandSerializationHelper {
 		} else {
 			throw new UnsupportedOperationException("Command not supported by serializer");
 		}
+		out.flush();
 	}
 	
 	/**

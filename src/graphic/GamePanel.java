@@ -25,8 +25,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 	
 	// options
 	private static Properties options;
-	private static int width;
-	private static int height;
+	public static int width;
+	public static int height;
 	
 	// game thread
 	private Thread gameThread;
@@ -54,7 +54,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 		Dimension preferredSize = new Dimension(width, height);
 		this.setPreferredSize(preferredSize);
 		this.setFocusable(true);
-		this.requestFocusInWindow();
+		this.requestFocusInWindow();		
 	}
 	
 	/**
@@ -133,6 +133,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 			gameThread = new Thread(this);
 			addKeyListener(this);
 			addMouseListener(this);
+			gameThread.start();
 		}
 	}
 	
