@@ -59,10 +59,18 @@ public class PlayState extends GameState {
 	
 	//button
 	private Button spawnButton[];
+	
+	//lastRender
+	private long lastRender;
+	
+	//victory
+	private int victory;
+	
 
 	
 	public PlayState(GameStateManager gsm, ArrayList<GameState> gameStates) {
 		this.gameStates = gameStates;
+		this.gsm = gsm;
 		init = false;
 		moneyFont = new Font("Arial", Font.PLAIN, 28);
 		moneyColor = Color.WHITE;
@@ -107,6 +115,7 @@ public class PlayState extends GameState {
 				Color.BLACK,
 				new Font("Arial", Font.PLAIN, 15)
 		);
+		lastRender = 0;
 	}
 	
 	public boolean hasInitialized() {
@@ -150,6 +159,10 @@ public class PlayState extends GameState {
 			//Switch to the new world
 			if(worldReceiver.hasWorldChange()) {
 				worldRenderer.switchWorld(worldReceiver.getWorld());
+			}else {
+				if(worldRenderer.getWorld() != null) {
+					worldRenderer.getWorld().simulate((int) (lastRender));
+				}
 			}
 			if(worldRenderer.getWorld() != null){
 				money = Integer.toString((int)worldRenderer.getWorld().getPlayerInfo(team).getMoney()) + " $";
@@ -161,12 +174,20 @@ public class PlayState extends GameState {
 					md = MovementDirection.LEFT;
 					spp = worldRenderer.getWorld().getWorldInfo().getWorldWidth();
 				}
+				
+				//VICTORY
+				if(worldRenderer.getWorld().victory != 0) {
+					System.out.println(worldRenderer.getWorld().victory);
+					this.victory = worldRenderer.getWorld().victory;
+					gsm.setState(GameStateManager.VICTORYSTATE);
+				}
 			}
 		}
 	}
 
 	@Override
 	public void draw(Graphics2D g) {
+		long start = System.currentTimeMillis();
 		if(worldRenderer != null) {
 			worldRenderer.render(g, 0);
 	
@@ -200,6 +221,7 @@ public class PlayState extends GameState {
 				}
 			}
 		}
+		lastRender = System.currentTimeMillis() - start;
 	}
 
 	@Override
@@ -233,6 +255,10 @@ public class PlayState extends GameState {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public int getVictory() {
+		return victory;
 	}
 
 	@Override

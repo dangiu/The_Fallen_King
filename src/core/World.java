@@ -31,6 +31,7 @@ public class World {
 	private WorldInfo worldInfo;
 	//Contiene le condizioni di vincita dei giocatori
 	private Map<Team, List<VictoryCondition>> victoryConditions;
+	public int victory = 0;
 	
 	//Il tempo totale in millisecondi che e' stato simulato dal mondo
 	private long timeOffset = 0;
@@ -259,7 +260,21 @@ public class World {
 			for(Entity entity : world.entities) {
 				EntitySerializationHelper.serializeEntity(entity, out);
 			}
-
+			
+			//victory condition 0=normal 1=blueWon 2=redWon
+			List<VictoryCondition> check = world.checkSatisfiedVictoryConditions(Team.BLUE);
+			for (VictoryCondition victoryCondition : check) {
+				if(victoryCondition != null) {
+					world.victory = 1;
+				}
+			}
+			check = world.checkSatisfiedVictoryConditions(Team.RED);
+			for (VictoryCondition victoryCondition : check) {
+				if(victoryCondition != null) {
+					world.victory = 2;
+				}
+			}
+			out.writeInt(world.victory);
 		}
 		
 		/**
@@ -295,6 +310,9 @@ public class World {
 				Entity entity = EntitySerializationHelper.deserializeEntity(in);
 				world.addEntity(entity);
 			}
+			
+			//victory condition 0=normal 1=blueWon 2=redWon
+			world.victory = in.readInt();
 			
 			return world;
 		}

@@ -26,9 +26,9 @@ public class KillEntityCondition implements VictoryCondition {
 	
 	public boolean testVictory() {
 		if(entity.isDead()) {
-			return false;
-		} else {
 			return true;
+		} else {
+			return false;
 		}
 	}
 	

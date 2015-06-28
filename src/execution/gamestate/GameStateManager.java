@@ -16,6 +16,7 @@ public class GameStateManager {
 	public static final int MENUSTATE = 0;
 	public static final int CONNECTIONSTATE = 1;
 	public static final int PLAYSTATE = 2;
+	public static final int VICTORYSTATE = 3;
 	
 	public GameStateManager() {
 		gameStates = new ArrayList<GameState>();
@@ -23,6 +24,7 @@ public class GameStateManager {
 		gameStates.add(new MenuState(this, gameStates));
 		gameStates.add(new ConnectionState(this, gameStates));
 		gameStates.add(new PlayState(this, gameStates));
+		gameStates.add(new VictoryState(this, gameStates));
 	}
 	
 	public void setState(int state) {
